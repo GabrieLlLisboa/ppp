@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>Trabalho de Artes - Plautilla Nelli</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --yudi-color: #ff00ff;
+            --gabriel-color: #00ffff;
+            --icaro-color: #ffff00;
+            --raul-color: #00ff00;
+        }
+
+        body { background-color: #000; overflow: hidden; }
+        .reveal { font-family: 'Montserrat', sans-serif; }
+        
+        .titulo-gigante { 
+            font-family: 'Bangers', cursive; 
+            font-size: 8.5em !important; 
+            color: white; 
+            text-shadow: 15px 15px 0px #ff0055;
+            line-height: 1em !important;
+            margin-bottom: 20px !important;
+        }
+
+        #alunos-grid {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; margin-top: 30px; opacity: 0; transition: opacity 0.5s ease;
+        }
+        .caixa-aluno {
+            padding: 25px 50px; border: 10px solid; font-family: 'Permanent Marker', cursive; font-size: 4em; 
+            background: rgba(255,255,255,0.1); transform: translateY(100px); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .caixa-aluno.show { transform: translateY(0); opacity: 1; }
+
+        .slide-layout { 
+            display: grid; 
+            grid-template-columns: 1.4fr 0.6fr; 
+            gap: 40px; 
+            align-items: center; 
+            text-align: left;
+        }
+        
+        .header-slide { 
+            font-family: 'Bangers', cursive; 
+            font-size: 5.5em !important; 
+            color: var(--gabriel-color); 
+            margin-bottom: 15px !important;
+            text-shadow: 8px 8px 0px #000;
+            position: relative;
+            left: -20px;
+        }
+
+        .texto-historia {
+            background: rgba(255, 255, 255, 0.1); 
+            padding: 40px; 
+            border-radius: 40px;
+            border-left: 30px solid #ff0055; 
+            font-size: 1.7em; 
+            line-height: 1.2; 
+            font-weight: 700; 
+            color: #fff;
+            letter-spacing: -1px;
+        }
+
+        /* GRID PARA PÁGINAS DE TÓPICOS (DESAFIOS E TÉCNICA) */
+        .topicos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .item-topico {
+            background: rgba(255,255,255,0.08);
+            padding: 20px;
+            border-radius: 20px;
+            border-top: 5px solid var(--icaro-color);
+        }
+        .item-topico h4 { 
+            color: var(--raul-color); 
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1em; 
+            margin-bottom: 8px; 
+            text-transform: uppercase;
+        }
+        .item-topico p { 
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 0.7em; 
+            line-height: 1.3; 
+            margin: 0; 
+            color: #e0e0e0;
+        }
+
+        .foto-preview { 
+            width: 100%; 
+            border: 12px solid #fff; 
+            border-radius: 20px; 
+            box-shadow: 20px 20px 0px #ff0055;
+            position: relative;
+            bottom: 100px;
+        }
+
+        #zoom-container {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+            height: 95vh; z-index: 9999; border: 20px solid white; box-shadow: 0 0 150px rgba(0,0,0,1);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            pointer-events: none;
+            background: #000;
+        }
+        #zoom-container.active { transform: translate(-50%, -50%) scale(1); pointer-events: all; }
+
+        ul { list-style: none; padding: 0; margin: 0; }
+        li { margin-bottom: 12px; border-bottom: 3px solid rgba(255,255,255,0.1); padding-bottom: 6px; }
+        strong { color: var(--icaro-color); text-transform: uppercase; }
+        .destaque-simbolo { color: var(--raul-color); }
+
+        /* --- EFEITOS EXCLUSIVOS DO SLIDE FINAL --- */
+        @keyframes bg-color-change {
+            0% { background-color: #ff0055; }
+            33% { background-color: #6a00ff; }
+            66% { background-color: #00aaff; }
+            100% { background-color: #ff0055; }
+        }
+        .final-slide-bg { animation: bg-color-change 4s infinite alternate; width: 100%; height: 100%; position: absolute; top:0; left:0; z-index: -1; }
+
+        @keyframes shake {
+            0% { transform: translate(0,0); }
+            25% { transform: translate(5px, -5px); }
+            50% { transform: translate(-5px, 5px); }
+            75% { transform: translate(5px, 5px); }
+            100% { transform: translate(0,0); }
+        }
+        .efeito-shake { animation: shake 0.2s infinite; display: inline-block; }
+
+        .floating-art {
+            position: absolute; font-size: 80px; opacity: 0.5; animation: float 3s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-40px) rotate(15deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <section data-background-color="#000" id="capa">
+                <h1 class="titulo-gigante">TRABALHO DE ARTES</h1>
+                <div id="alunos-grid">
+                    <div class="caixa-aluno" style="border-color: var(--yudi-color); color: var(--yudi-color);">YUDI</div>
+                    <div class="caixa-aluno" style="border-color: var(--gabriel-color); color: var(--gabriel-color);">GABRIEL</div>
+                    <div class="caixa-aluno" style="border-color: var(--icaro-color); color: var(--icaro-color);">ÍCARO</div>
+                    <div class="caixa-aluno" style="border-color: var(--raul-color); color: var(--raul-color);">RAUL</div>
+                </div>
+            </section>
+
+            <section data-background-color="#050505">
+                <h2 class="header-slide">PLAUTILLA NELLI</h2>
+                <div class="slide-layout">
+                    <div class="texto-historia">
+                        <p><strong>NOME:</strong> Polissena Nelli.</p>
+                        <p><strong>VIDA:</strong> Desafiou as leis que proibiam mulheres de estudar anatomia, aprendendo sozinha através de grandes mestres.</p>
+                        <p><strong>MORTE:</strong> Faleceu em 1588 aos 64 anos. Foi uma líder respeitada e prioresa.</p>
+                        <p><strong>ESQUECIMENTO:</strong> Suas obras foram creditadas a homens por 450 anos. Só recentemente seu talento foi reconhecido.</p>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <img src="https://i.imgur.com/R3FtoVM.png" class="foto-preview">
+                    </div>
+                </div>
+            </section>
+
+            <section data-background-color="#0a0a0a">
+                <h2 class="header-slide">DESAFIOS ENFRENTADOS</h2>
+                <div class="texto-historia">
+                    <div class="topicos-grid">
+                        <div class="item-topico">
+                            <h4>1. PROIBIÇÃO ARTÍSTICA</h4>
+                            <p>No século XVI, mulheres não podiam entrar em academias, estudar anatomia ou frequentar oficinas masculinas.</p>
+                        </div>
+                        <div class="item-topico">
+                            <h4>2. VIDA EM CLAUSURA</h4>
+                            <p>Como freira, vivia no convento e não podia sair para observar modelos, cidades ou paisagens.</p>
+                        </div>
+                        <div class="item-topico">
+                            <h4>3. ESTUDO LIMITADO</h4>
+                            <p>Aprendeu sozinha, copiando desenhos de outros artistas, principalmente Fra Bartolomeo.</p>
+                        </div>
+                        <div class="item-topico">
+                            <h4>4. FIGURAS MASCULINAS</h4>
+                            <p>Era considerado impossível para mulheres na época, mas ela produziu grandes pinturas com vários personagens.</p>
+                        </div>
+                        <div class="item-topico">
+                            <h4>5. SEM RECONHECIMENTO</h4>
+                            <p>Suas obras foram atribuídas a homens por séculos. Ficou esquecida por cerca de 400 anos.</p>
+                        </div>
+                        <div class="item-topico">
+                            <h4>6. DIFICULDADES MATERIAIS</h4>
+                            <p>Dependia de doações. Materiais de pintura eram caros e raros dentro do ambiente do convento.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section data-background-color="#050505">
+                <h2 class="header-slide">ASPECTOS TÉCNICOS</h2>
+                <div class="texto-historia">
+                    <div class="topicos-grid">
+                        <div class="item-topico">
+                            <h4>COMPOSIÇÃO</h4>
+                            <p>Figura em meio-corpo com fundo escuro para destacar a santa. Objetos simbólicos organizados ao redor.</p>
+                        </div>
+                        <div class="item-topico">
+                            <h4>ILUMINAÇÃO</h4>
+                            <p>Luz suave lateral que realça o rosto e mãos, criando um clima de silêncio e contemplação.</p>
+                        </div>
+                        <div class="item-topico">
+                            <h4>CORES</h4>
+                            <p>Tons terrosos e dourados predominantes. Paleta simples típica do Renascimento florentino.</p>
+                        </div>
+                        <div class="item-topico">
+                            <h4>EXPRESSÃO</h4>
+                            <p>Cabeça inclinada e olhos baixos. Mãos cruzadas sobre o peito em atitude de profunda oração.</p>
+                        </div>
+                        <div class="item-topico">
+                            <h4>ACABAMENTO</h4>
+                            <p>Traços delicados e pouco movimento. Momento focado na experiência espiritual, não na ação.</p>
+                        </div>
+                        <div class="item-topico">
+                            <h4>TÉCNICA</h4>
+                            <p>Pintura lisa, sem pinceladas aparentes e contornos suaves, herdados da escola de Florença.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section data-background-color="#111" id="slide-obra">
+                <h2 class="header-slide">OBRA ESCOLHIDA</h2>
+                <div class="slide-layout">
+                    <div class="texto-historia" id="container-texto">
+                        <div id="dados-tecnicos">
+                            <h3 style="color:var(--yudi-color); font-family:'Bangers'; font-size: 1.8em; margin-bottom: 20px;">FICHA TÉCNICA</h3>
+                            <ul style="font-size: 0.9em;">
+                                <li><strong>DATA:</strong> c. 1560–1565</li>
+                                <li><strong>TÉCNICA:</strong> Óleo sobre madeira</li>
+                                <li><strong>SÍMBOLOS:</strong></li>
+                                <li><span class="destaque-simbolo">CÁLICE:</span> Eucaristia</li>
+                                <li><span class="destaque-simbolo">CORAÇÃO:</span> Amor Divino</li>
+                                <li><span class="destaque-simbolo">PENA/LIVRO:</span> Doutora da Igreja</li>
+                            </ul>
+                        </div>
+                        <div id="contexto-historico" style="display:none;">
+                            <h3 style="color:var(--gabriel-color); font-family:'Bangers'; font-size: 1.6em; margin-bottom: 15px;">CONTEXTO</h3>
+                            <p style="font-size: 0.75em; line-height: 1.3;">Representa o momento místico em que Santa Catarina recebe as chagas de Cristo. No século XIV, crises como a Peste Negra impulsionaram essa espiritualidade intensa.</p>
+                            <p style="font-size: 0.75em; line-height: 1.3;">A obra reflete a fé profunda e o uso de símbolos para representar a união espiritual com Cristo.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <img src="https://i.imgur.com/HEbPXdl.png" class="foto-preview">
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="final-slide-bg"></div>
+                
+                <div class="floating-art" style="top: 10%; left: 10%;">🎨</div>
+                <div class="floating-art" style="top: 20%; right: 15%; animation-delay: 1s;">🖌️</div>
+                <div class="floating-art" style="bottom: 15%; left: 20%; animation-delay: 2s;">✨</div>
+
+                <h1 class="titulo-gigante efeito-shake" style="text-shadow: 10px 10px 0px #000; font-size: 9em !important; margin-bottom: 0 !important;">FIM!</h1>
+                
+                <div class="fragment fade-up">
+                    <h2 style="font-family: 'Bangers'; font-size: 4em; color: white; text-shadow: 5px 5px 0px #000; margin-top: -10px;">PLAUTILLA VIVE!</h2>
+                    <div style="background: white; color: black; display: inline-block; padding: 20px 60px; font-size: 2em; font-weight: 900; border: 10px solid black; transform: rotate(-3deg); box-shadow: 10px 10px 0px rgba(0,0,0,0.5);">
+                        OBRIGADO!
+                    </div>
+                </div>
+
+                <div class="fragment fade-up" style="margin-top: 40px; font-family: 'Permanent Marker'; color: white; font-size: 1.5em; text-shadow: 3px 3px 0px #000;">
+                    EQUIPE: YUDI • GABRIEL • ÍCARO • RAUL
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <img id="zoom-container" src="">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        let deck = new Reveal();
+        deck.initialize({
+            hash: false, history: false, controls: true, progress: true, center: true,
+            width: 1600, height: 900,
+            transition: 'slide',
+            keyboard: { 8: 'prev', 32: 'next', 72: null, 71: null }
+        });
+
+        const zoomImg = document.getElementById('zoom-container');
+
+        document.addEventListener('keydown', function(event) {
+            const currentSlide = deck.getCurrentSlide();
+            const key = event.key.toLowerCase();
+
+            if (key === 'g') {
+                event.stopImmediatePropagation();
+                if (currentSlide.id === 'capa') {
+                    document.getElementById('alunos-grid').style.opacity = '1';
+                    document.querySelectorAll('.caixa-aluno').forEach((c, i) => {
+                        setTimeout(() => c.classList.add('show'), i * 200);
+                    });
+                } else if (zoomImg.classList.contains('active')) {
+                    zoomImg.classList.remove('active');
+                } else {
+                    const fotoNoSlide = currentSlide.querySelector('.foto-preview');
+                    if (fotoNoSlide) {
+                        zoomImg.src = fotoNoSlide.src;
+                        zoomImg.classList.add('active');
+                    }
+                }
+            }
+
+            if (key === 'j' && currentSlide.id === 'slide-obra') {
+                event.stopImmediatePropagation();
+                const d = document.getElementById('dados-tecnicos');
+                const c = document.getElementById('contexto-historico');
+                d.style.display = (d.style.display === 'none') ? 'block' : 'none';
+                c.style.display = (c.style.display === 'none') ? 'block' : 'none';
+            }
+            
+            if (key === ' ' || event.keyCode === 8) {
+                zoomImg.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
