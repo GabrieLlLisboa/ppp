@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title>Trabalho de Artes - Plautilla Nelli</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Permanent+Marker&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --yudi-color: #ff00ff;
-            --gabriel-color: #00ffff;
+            --gabriel-color: #6616cf;
             --icaro-color: #ffff00;
             --raul-color: #00ff00;
         }
@@ -18,23 +18,44 @@
         .reveal { font-family: 'Montserrat', sans-serif; }
         
         .titulo-gigante { 
-            font-family: 'Bangers', cursive; 
-            font-size: 8.5em !important; 
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 900; /* Peso extra para impacto */
+            font-size: 6em !important; 
             color: white; 
-            text-shadow: 15px 15px 0px #ff0055;
+            text-shadow: 10px 10px 0px #ff0055;
             line-height: 1em !important;
             margin-bottom: 20px !important;
+            text-transform: uppercase;
         }
 
         #alunos-grid {
             display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; margin-top: 30px; opacity: 0; transition: opacity 0.5s ease;
         }
-        .caixa-aluno {
-            padding: 25px 50px; border: 10px solid; font-family: 'Permanent Marker', cursive; font-size: 4em; 
-            background: rgba(255,255,255,0.1); transform: translateY(100px); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.caixa-aluno {
+            padding: 25px 50px; 
+            border: 10px solid; 
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 900; 
+            font-size: 3em; 
+            background: rgba(255,255,255,0.1); 
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .caixa-aluno.show { transform: translateY(0); opacity: 1; }
 
+        /* Quando a classe show é adicionada, a animação contínua 'flutuar' começa */
+        .caixa-aluno.show { 
+            opacity: 1;
+            transform: scale(1);
+            animation: flutuar-nomes 3s ease-in-out infinite;
+        }
+
+        /* Animação contínua de balanço e brilho */
+        @keyframes flutuar-nomes {
+            0%, 100% { transform: translateY(0px) rotate(0deg); filter: brightness(1); }
+            33% { transform: translateY(-10px) rotate(2deg); filter: brightness(1.3); }
+            66% { transform: translateY(5px) rotate(-2deg); filter: brightness(1); }
+        }
         .slide-layout { 
             display: grid; 
             grid-template-columns: 1.4fr 0.6fr; 
@@ -44,13 +65,15 @@
         }
         
         .header-slide { 
-            font-family: 'Bangers', cursive; 
-            font-size: 5.5em !important; 
+            font-family: 'Montserrat', sans-serif; 
+            font-weight: 900;
+            font-size: 4em !important; 
             color: var(--gabriel-color); 
             margin-bottom: 15px !important;
             text-shadow: 8px 8px 0px #000;
             position: relative;
             left: -20px;
+            text-transform: uppercase;
         }
 
         .texto-historia {
@@ -65,7 +88,6 @@
             letter-spacing: -1px;
         }
 
-        /* GRID PARA PÁGINAS DE TÓPICOS (DESAFIOS E TÉCNICA) */
         .topicos-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -78,7 +100,7 @@
             border-top: 5px solid var(--icaro-color);
         }
         .item-topico h4 { 
-            color: var(--raul-color); 
+            color: #ffffff; /* ALTERADO: Agora é Branco */
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-size: 1em; 
@@ -112,12 +134,20 @@
         }
         #zoom-container.active { transform: translate(-50%, -50%) scale(1); pointer-events: all; }
 
+        #thanks-fullscreen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #ff0055; z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            font-family: 'Montserrat', sans-serif; font-weight: 900; text-align: center; color: white;
+        }
+        #thanks-fullscreen.active { transform: translateY(0); }
+
         ul { list-style: none; padding: 0; margin: 0; }
         li { margin-bottom: 12px; border-bottom: 3px solid rgba(255,255,255,0.1); padding-bottom: 6px; }
         strong { color: var(--icaro-color); text-transform: uppercase; }
         .destaque-simbolo { color: var(--raul-color); }
 
-        /* --- EFEITOS EXCLUSIVOS DO SLIDE FINAL --- */
         @keyframes bg-color-change {
             0% { background-color: #ff0055; }
             33% { background-color: #6a00ff; }
@@ -141,6 +171,13 @@
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-40px) rotate(15deg); }
+        }
+
+        /* Ajustes específicos para manter a hierarquia sem as outras fontes */
+        #dados-tecnicos h3, #contexto-historico h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -243,7 +280,7 @@
                 <div class="slide-layout">
                     <div class="texto-historia" id="container-texto">
                         <div id="dados-tecnicos">
-                            <h3 style="color:var(--yudi-color); font-family:'Bangers'; font-size: 1.8em; margin-bottom: 20px;">FICHA TÉCNICA</h3>
+                            <h3 style="color:var(--yudi-color); font-size: 1.8em; margin-bottom: 20px;">FICHA TÉCNICA</h3>
                             <ul style="font-size: 0.9em;">
                                 <li><strong>DATA:</strong> c. 1560–1565</li>
                                 <li><strong>TÉCNICA:</strong> Óleo sobre madeira</li>
@@ -254,7 +291,7 @@
                             </ul>
                         </div>
                         <div id="contexto-historico" style="display:none;">
-                            <h3 style="color:var(--gabriel-color); font-family:'Bangers'; font-size: 1.6em; margin-bottom: 15px;">CONTEXTO</h3>
+                            <h3 style="color:var(--gabriel-color); font-size: 1.6em; margin-bottom: 15px;">CONTEXTO</h3>
                             <p style="font-size: 0.75em; line-height: 1.3;">Representa o momento místico em que Santa Catarina recebe as chagas de Cristo. No século XIV, crises como a Peste Negra impulsionaram essa espiritualidade intensa.</p>
                             <p style="font-size: 0.75em; line-height: 1.3;">A obra reflete a fé profunda e o uso de símbolos para representar a união espiritual com Cristo.</p>
                         </div>
@@ -265,28 +302,34 @@
                 </div>
             </section>
 
-            <section>
+            <section id="slide-final">
                 <div class="final-slide-bg"></div>
-                
                 <div class="floating-art" style="top: 10%; left: 10%;">🎨</div>
                 <div class="floating-art" style="top: 20%; right: 15%; animation-delay: 1s;">🖌️</div>
                 <div class="floating-art" style="bottom: 15%; left: 20%; animation-delay: 2s;">✨</div>
 
-                <h1 class="titulo-gigante efeito-shake" style="text-shadow: 10px 10px 0px #000; font-size: 9em !important; margin-bottom: 0 !important;">FIM!</h1>
+                <h1 class="titulo-gigante efeito-shake" style="text-shadow: 10px 10px 0px #000; font-size: 7em !important; margin-bottom: 0 !important;">FIM!</h1>
                 
                 <div class="fragment fade-up">
-                    <h2 style="font-family: 'Bangers'; font-size: 4em; color: white; text-shadow: 5px 5px 0px #000; margin-top: -10px;">PLAUTILLA VIVE!</h2>
+                    <h2 style="font-family: 'Montserrat'; font-weight: 900; font-size: 4em; color: white; text-shadow: 5px 5px 0px #000; margin-top: -10px;">PLAUTILLA VIVE!</h2>
                     <div style="background: white; color: black; display: inline-block; padding: 20px 60px; font-size: 2em; font-weight: 900; border: 10px solid black; transform: rotate(-3deg); box-shadow: 10px 10px 0px rgba(0,0,0,0.5);">
                         OBRIGADO!
                     </div>
                 </div>
 
-                <div class="fragment fade-up" style="margin-top: 40px; font-family: 'Permanent Marker'; color: white; font-size: 1.5em; text-shadow: 3px 3px 0px #000;">
-                    EQUIPE: YUDI • GABRIEL • ÍCARO • RAUL
+                <div class="fragment fade-up" style="margin-top: 40px; font-family: 'Montserrat'; font-weight: 700; color: white; font-size: 1.3em; text-shadow: 3px 3px 0px #000;">
+                    EQUIPE: YUDI • GABRIEL • ÍCARO • RAUL <br>
+                    <span style="font-size: 0.8em; color: var(--icaro-color);">PESQUISA: RAUL, YUDI E ÍCARO</span>
                 </div>
             </section>
 
         </div>
+    </div>
+
+    <div id="thanks-fullscreen">
+        <h1 style="font-size: 8em; text-shadow: 10px 10px 0 #000; margin: 0;">Obrigado!</h1>
+        <h2 style="font-size: 3em; color: black; background: white; padding: 10px 50px; transform: rotate(-2deg); margin-top: 20px;">Design: Gabriel Lisboa</h2>
+        <h3 style="font-size: 2em; margin-top: 20px; text-transform: uppercase;">Pesquisa: Raul, Yudi e Ícaro</h3>
     </div>
 
     <img id="zoom-container" src="">
@@ -302,18 +345,25 @@
         });
 
         const zoomImg = document.getElementById('zoom-container');
+        const thanksFullscreen = document.getElementById('thanks-fullscreen');
 
         document.addEventListener('keydown', function(event) {
             const currentSlide = deck.getCurrentSlide();
             const key = event.key.toLowerCase();
 
-            if (key === 'g') {
+           if (key === 'g') {
                 event.stopImmediatePropagation();
                 if (currentSlide.id === 'capa') {
                     document.getElementById('alunos-grid').style.opacity = '1';
                     document.querySelectorAll('.caixa-aluno').forEach((c, i) => {
-                        setTimeout(() => c.classList.add('show'), i * 200);
+                        setTimeout(() => {
+                            c.classList.add('show');
+                            // Adiciona um delay individual para a animação infinita ficar dessincronizada
+                            c.style.animationDelay = (i * 0.2) + 's';
+                        }, i * 200);
                     });
+                } else if (currentSlide.id === 'slide-final') {
+                    thanksFullscreen.classList.toggle('active');
                 } else if (zoomImg.classList.contains('active')) {
                     zoomImg.classList.remove('active');
                 } else {
@@ -335,6 +385,7 @@
             
             if (key === ' ' || event.keyCode === 8) {
                 zoomImg.classList.remove('active');
+                thanksFullscreen.classList.remove('active');
             }
         });
     </script>
